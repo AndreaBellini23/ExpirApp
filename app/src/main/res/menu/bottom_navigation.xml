@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item android:id="@+id/freezer"
+            android:icon="@drawable/ic_freezer"
+            android:title="Freezer"/>
+
+    <item android:id="@+id/fridge"
+        android:icon="@drawable/ic_fridge"
+        android:title="Fridge"/>
+
+    <item android:id="@+id/drugs"
+        android:icon="@drawable/ic_drugs"
+        android:title="Drugs"/>
+
+</menu>

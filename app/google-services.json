@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "616951982015",
+    "project_id": "expirapp-a5f78",
+    "storage_bucket": "expirapp-a5f78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616951982015:android:47b1a9bc0fcd76c5b5230a",
+        "android_client_info": {
+          "package_name": "andreabellini.java.expirapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616951982015-vntd9hjgjb27p5gmc6ur11q4do7upgf5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "andreabellini.java.expirapp",
+            "certificate_hash": "491fe7ebd1b6549d5c8e8931b85758aa5281175a"
+          }
+        },
+        {
+          "client_id": "616951982015-ofohlk9fch3jkiigg4kpl9rakhc3sacc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEh6Hu2vOa7N5dfgsXAACPXvN1MMVu7D8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616951982015-ofohlk9fch3jkiigg4kpl9rakhc3sacc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
