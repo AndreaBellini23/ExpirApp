@@ -1,4 +1,4 @@
-package andreabellini.java.expirapp;
+ package andreabellini.java.expirapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +29,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn_sign_out;
     FirebaseAuth firebaseAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -83,25 +84,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_sign_out = findViewById(R.id.btn_sign_out);
-        btn_sign_out.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AuthUI.getInstance()
-                        .signOut(MainActivity.this)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                signOut();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, ""+ e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-        });
     }
 
 
@@ -139,23 +121,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.settings:
-                // User chose the "Settings" item, show the app settings UI...
-                return true;
+    public boolean onCreateOptionsMenu(Menu menu) {
 
-            case R.id.logout:
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
-                return true;
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-
-        }
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch(item.getItemId()){
+            case R.id.logout:{
+                AuthUI.getInstance()
+                        .signOut(MainActivity.this);
+                signOut(); //ritorna alla schermata di login
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
