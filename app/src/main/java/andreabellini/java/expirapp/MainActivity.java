@@ -28,7 +28,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+    //TODO: implemenratare firebase realtime
+    //TODO: implementare recylerview
+    //TODO: implementare bottone aggiunta dati
+    //TODO: correggere colore icone
+    //TODO: sostituire stringe hardcoded
+    //TODO: implementare darkmode
     FirebaseAuth firebaseAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -39,18 +44,18 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance(); //ottengo istanza firebase
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(user != null){
-                    Log.d("Boh", "C'è un utente loggato");
+                    //Log
                 } else {
-                    Log.d("Boh2", "Non c'è un utente loggato.");
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         };
@@ -85,9 +90,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-
-
 
 
     void openFragment(Fragment fragment){

@@ -35,6 +35,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:26.1.1') //Aggiunto
     implementation 'com.google.firebase:firebase-auth' //Aggiunto
     implementation 'com.firebaseui:firebase-ui-auth:6.4.0' //Aggiunto
+    implementation 'com.google.firebase:firebase-database' //Aggiunto
 
 
 
