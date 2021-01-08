@@ -79,6 +79,8 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Utente esiste già. Non creo nodo", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(LoginActivity.this, "Creo nodo dedicato", Toast.LENGTH_LONG).show();
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                    ref.child(userID).setValue(user.getEmail());
                 }
 
 
