@@ -7,9 +7,9 @@
     </item>
 
     <item
-        android:id="@+id/settings"
-        android:title="Settings"
-        android:icon="@drawable/ic_baseline_settings_24">
+        android:id="@+id/delete"
+        android:title="Delete account"
+        android:icon="@drawable/ic_baseline_delete_forever_24">
 
     </item>
 </menu>

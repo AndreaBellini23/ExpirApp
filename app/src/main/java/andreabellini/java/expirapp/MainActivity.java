@@ -1,12 +1,15 @@
  package andreabellini.java.expirapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +26,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 import java.util.List;
@@ -140,7 +148,58 @@ public class MainActivity extends AppCompatActivity {
                 signOut(); //ritorna alla schermata di login
                 return true;
             }
+            case R.id.delete:{
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String userID = user.getUid();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder((MainActivity.this));
+                builder.setTitle(R.string.confirmDeleteTitle);
+                builder.setMessage(R.string.confirmDeleteMessage);
+                builder.setCancelable(true);
+                builder.setPositiveButton(R.string.confirmDeletePositive, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                AuthUI.getInstance()
+                                        .delete(MainActivity.this)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    // Deletion succeeded
+                                                    deleteAccountData(userID);
+                                                    signOut();
+                                                    Toast.makeText(MainActivity.this, R.string.accountDeleted, Toast.LENGTH_LONG).show();
+                                                } else {
+                                                    // Deletion failed
+                                                }
+                                            }
+                                        });
+                            }
+                        });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteAccountData(String userID){
+        FirebaseDatabase.getInstance().getReference()
+                .child(userID).removeValue()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                        } else {
+                            Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="delete">Elimina account</string>
+    <string name="confirmDeleteMessage">Sei sicuro? Se eliminerai il tuo account perdereai tutti i tuoi dati.</string>
+    <string name="confirmDeletePositive">Sono sicuro</string>
+    <string name="accountDeleted">Account eliminato</string>
+    <string name="confirmDeleteTitle">Eliminazione account</string>
+    <string name="cancel">Annulla</string>
+</resources>
