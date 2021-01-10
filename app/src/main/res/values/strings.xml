@@ -19,4 +19,6 @@
     <string name="addToFreezer">Add to freezer</string>
     <string name="addToFridge">Add to fridge</string>
     <string name="addToDrugs">Add to drugs</string>
+    <string name="confirmDeleteProductMessage">Delete product?</string>
+    <string name="confirmDeleteProductTitle">Product deleting</string>
 </resources>

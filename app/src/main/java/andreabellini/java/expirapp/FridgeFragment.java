@@ -128,24 +128,38 @@ public class FridgeFragment extends Fragment {
         FirebaseRecyclerAdapter<Product, ProductViewHolder> adapter = new FirebaseRecyclerAdapter<Product, ProductViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull ProductViewHolder holder, int position, @NonNull Product model) {
-                //TODO: ottenere dati
                 String productID = getRef(position).getKey(); //Le chiavi i ogni nodo figlio
                 fridgeRef.child(productID).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.child("category").getValue().toString().equalsIgnoreCase("fridge")) {
-                            String name = snapshot.child("productName").getValue().toString();
-                            String date = snapshot.child("expireDate").getValue().toString();
+                        if(snapshot.hasChild("category")) {
+                            if(snapshot.child("category").getValue().toString().equalsIgnoreCase("fridge")) {
+                                String name = snapshot.child("productName").getValue().toString();
+                                String date = snapshot.child("expireDate").getValue().toString();
 
-                            holder.productName.setText(name);
-                            holder.expireDate.setText(date);
+
+                                holder.productName.setText(name);
+                                holder.expireDate.setText(date);
+                            }
+
                         }
+
+                        final DatabaseReference itemRef = getRef(position);
+                        final String myKey = itemRef.getKey();//you can name the myKey whatever you want.
+
+                        holder.deleteProduct.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                fridgeRef.child(myKey).removeValue();
+                            }
+                        });
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
+
                 });
             }
 
@@ -172,11 +186,38 @@ public class FridgeFragment extends Fragment {
             productName = itemView.findViewById(R.id.productNameTextView);
             expireDate = itemView.findViewById(R.id.expireDateTextView);
             deleteProduct = itemView.findViewById(R.id.deleteProductButton);
-        }
+
+            }
+            /*deleteProduct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder((MainActivity.this));
+                    builder.setTitle(R.string.confirmDeleteProductTitle);
+                    builder.setMessage(R.string.confirmDeleteProductMessage);
+                    builder.setCancelable(true);
+                    builder.setPositiveButton(R.string.confirmDeletePositive, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //TODO: eliminazione
+                        }
+                    });
+                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+            });*/
+
     }
 
 
-    void showCustomDialog(){
+   void showCustomDialog(){
 
         final Dialog dialog = new Dialog(getContext());
         dialog.setCancelable(true);

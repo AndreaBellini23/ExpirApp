@@ -13,4 +13,6 @@
     <string name="addToFreezer">Aggiungi a congelatore</string>
     <string name="addToFridge">Aggiungi a frigorifero</string>
     <string name="addToDrugs">Aggiungi ai farmaci</string>
+    <string name="confirmDeleteProductMessage">Eliminare prodotto?</string>
+    <string name="confirmDeleteProductTitle">Eliminazione prodotto</string>
 </resources>
