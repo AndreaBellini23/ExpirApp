@@ -13,4 +13,10 @@
     <string name="confirmDeleteTitle">Account deleting</string>
     <string name="cancel">Cancel</string>
     <string name="deleteProduct">Delete</string>
+    <string name="addProductNameString">Insert product name</string>
+    <string name="addExpireDateString">Insert expire date</string>
+    <string name="addProduct">Add</string>
+    <string name="addToFreezer">Add to freezer</string>
+    <string name="addToFridge">Add to fridge</string>
+    <string name="addToDrugs">Add to drugs</string>
 </resources>

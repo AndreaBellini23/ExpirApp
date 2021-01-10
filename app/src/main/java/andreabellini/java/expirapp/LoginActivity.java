@@ -56,8 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             IdpResponse response = IdpResponse.fromResultIntent(data);
             if (resultCode == RESULT_OK) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                //TODO: controllo se esiste già su DB il riferimento all'utente. Se non c'è, credo nuovo nodo, altrimenti non faccio nulla
-                verifyIfUserAlreadyExists(user);
+                //verifyIfUserAlreadyExists(user); //TODO: togliere
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
                 //Toast.makeText(this, "Welcome! " + user.getDisplayName(), Toast.LENGTH_LONG).show();

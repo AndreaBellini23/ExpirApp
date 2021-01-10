@@ -7,4 +7,10 @@
     <string name="confirmDeleteTitle">Eliminazione account</string>
     <string name="cancel">Annulla</string>
     <string name="deleteProduct">Elimina</string>
+    <string name="addProductNameString">Inserisci nome prodotto</string>
+    <string name="addExpireDateString">Inserisci data scadenza</string>
+    <string name="addProduct">Aggiung</string>
+    <string name="addToFreezer">Aggiungi a congelatore</string>
+    <string name="addToFridge">Aggiungi a frigorifero</string>
+    <string name="addToDrugs">Aggiungi ai farmaci</string>
 </resources>

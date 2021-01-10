@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,23 +21,23 @@
             android:layout_marginLeft="4dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/productNameTextView"
+            <EditText
+                android:id="@+id/productNameEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NomeProdotto"
-                android:textSize="18dp"
-                android:textStyle="bold">
+                android:hint="@string/addProductNameString"
+                android:inputType="text">
 
-            </TextView>
+            </EditText>
 
-            <TextView
-                android:id="@+id/expireDateTextView"
+            <EditText
+                android:id="@+id/expireDateEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="DataScadenza">
+                android:hint="@string/addExpireDateString"
+                android:inputType="date">
 
-            </TextView>
+            </EditText>
         </LinearLayout>
 
         <View
@@ -48,15 +48,14 @@
         </View>
 
         <Button
-            android:id="@+id/deleteProductButton"
+            android:id="@+id/addProductButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/deleteProduct">
+            android:text="@string/addProduct">
 
         </Button>
 
     </LinearLayout>
 
-
-</RelativeLayout>
+</LinearLayout>
