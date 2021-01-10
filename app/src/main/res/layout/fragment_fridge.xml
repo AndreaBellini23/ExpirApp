@@ -15,6 +15,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
+        android:backgroundTint="#E91E63"
         android:clickable="true"
         android:src="@drawable/ic_baseline_add_24" />
 
