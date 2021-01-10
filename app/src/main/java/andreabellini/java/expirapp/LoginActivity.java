@@ -56,40 +56,15 @@ public class LoginActivity extends AppCompatActivity {
             IdpResponse response = IdpResponse.fromResultIntent(data);
             if (resultCode == RESULT_OK) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                //verifyIfUserAlreadyExists(user); //TODO: togliere
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
-                //Toast.makeText(this, "Welcome! " + user.getDisplayName(), Toast.LENGTH_LONG).show();
-                //TODO: rimuovere
+                Toast.makeText(this, R.string.welcome + user.getDisplayName(), Toast.LENGTH_LONG).show();
+
             } else {
                 Toast.makeText(this, "" + response.getError().getMessage(), Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    private void verifyIfUserAlreadyExists(FirebaseUser user) {
-        String userID = user.getUid();
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
 
-        rootRef.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    Toast.makeText(LoginActivity.this, "Utente esiste già. Non creo nodo", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(LoginActivity.this, "Creo nodo dedicato", Toast.LENGTH_LONG).show();
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-                    ref.child(userID).setValue(user.getEmail());
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
 }

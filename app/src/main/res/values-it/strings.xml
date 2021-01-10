@@ -15,4 +15,5 @@
     <string name="addToDrugs">Aggiungi ai farmaci</string>
     <string name="confirmDeleteProductMessage">Eliminare prodotto?</string>
     <string name="confirmDeleteProductTitle">Eliminazione prodotto</string>
+    <string name="welcome">Benvenuto</string>
 </resources>

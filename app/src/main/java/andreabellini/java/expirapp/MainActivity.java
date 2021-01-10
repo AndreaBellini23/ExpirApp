@@ -36,8 +36,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    //TODO: implementare recylerview
-    //TODO: implementare darkmode
+    //TODO: verificare eliminazione dati con permessi di lettura e scrittura solo con autenticazione
     FirebaseAuth firebaseAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
 

@@ -1,11 +1,10 @@
 <resources>
     <string name="app_name" translatable="false">ExpirApp</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_bottom_navigation">MainActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="title_activity_bottom_navigation" translatable="false">MainActivity</string>
+    <string name="title_home" translatable="false">Home</string>
+    <string name="title_dashboard" translatable="false">Dashboard</string>
+    <string name="title_notifications" translatable="false">Notifications</string>
     <string name="confirmDeleteMessage">Are you sure? If you will delete your account you will lose all your data.</string>
     <string name="delete">Delete account</string>
     <string name="confirmDeletePositive">I\'m sure</string>
@@ -21,4 +20,5 @@
     <string name="addToDrugs">Add to drugs</string>
     <string name="confirmDeleteProductMessage">Delete product?</string>
     <string name="confirmDeleteProductTitle">Product deleting</string>
+    <string name="welcome">Welcome</string>
 </resources>
