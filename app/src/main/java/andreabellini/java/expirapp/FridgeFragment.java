@@ -2,12 +2,18 @@ package andreabellini.java.expirapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +27,11 @@ import com.google.firebase.database.FirebaseDatabase;
  * create an instance of this fragment.
  */
 public class FridgeFragment extends Fragment {
+
+    private View fridgeView;
+    private RecyclerView fridgeList;
+    private DatabaseReference fridgeRef;
+    private FirebaseUser user;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -72,11 +83,17 @@ public class FridgeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_fridge, container, false);
+        fridgeView = inflater.inflate(R.layout.fragment_fridge, container, false);
+        fridgeList = (RecyclerView) fridgeView.findViewById(R.id.fridgeRecyclerView);
+        fridgeList.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        fridgeRef = FirebaseDatabase.getInstance().getReference().child(user.getUid()); //seleziono nodo corrispondente ad utente loggato
+        Toast.makeText(getContext(), user.getUid(), Toast.LENGTH_LONG).show(); //TODO: rimuovere
 
         //Floating Action Button per aggiungere un elemento
-        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) fridgeView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,6 +103,24 @@ public class FridgeFragment extends Fragment {
 
 
 
-        return v;
+        return fridgeView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<Product>()
+                .setQuery(fridgeRef, Product.class)
+                .build();
+
+        FirebaseRecyclerAdapter<Product, >
+    }
+
+
+    public static class ProductViewHolder extends RecyclerView.ViewHolder{
+        public ProductViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
     }
 }

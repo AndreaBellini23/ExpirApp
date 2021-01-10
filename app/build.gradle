@@ -36,6 +36,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth' //Aggiunto
     implementation 'com.firebaseui:firebase-ui-auth:6.4.0' //Aggiunto
     implementation 'com.google.firebase:firebase-database' //Aggiunto
+    implementation 'com.firebaseui:firebase-ui-database:6.2.0' //Aggiunto
 
 
 

@@ -6,4 +6,5 @@
     <string name="accountDeleted">Account eliminato</string>
     <string name="confirmDeleteTitle">Eliminazione account</string>
     <string name="cancel">Annulla</string>
+    <string name="deleteProduct">Elimina</string>
 </resources>

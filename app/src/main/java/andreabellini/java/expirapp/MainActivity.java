@@ -36,11 +36,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    //TODO: implemenratare firebase realtime
     //TODO: implementare recylerview
-    //TODO: implementare bottone aggiunta dati
-    //TODO: correggere colore icone
-    //TODO: sostituire stringe hardcoded
     //TODO: implementare darkmode
     FirebaseAuth firebaseAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
