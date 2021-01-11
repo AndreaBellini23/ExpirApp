@@ -111,6 +111,68 @@ public class FreezerFragment extends Fragment {
         return freezerView;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<Product>()
+                .setQuery(freezerRef, Product.class)
+                .build();
+
+        FirebaseRecyclerAdapter<Product, ProductViewHolder> adapter = new FirebaseRecyclerAdapter<Product, ProductViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull ProductViewHolder holder, int position, @NonNull Product model) {
+                String productID = getRef(position).getKey(); //Le chiavi i ogni nodo figlio
+                freezerRef.child(productID).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.hasChild("category")) {
+                            if(snapshot.child("category").getValue().toString().equalsIgnoreCase("drugs")) {
+                                String name = snapshot.child("productName").getValue().toString();
+                                String date = snapshot.child("expireDate").getValue().toString();
+
+
+                                holder.productName.setText(name);
+                                holder.expireDate.setText(date);
+                            }
+                            else {
+                                holder.deleteProduct.setVisibility(View.GONE);
+                                holder.expireDate.setVisibility(View.GONE);
+                                holder.productName.setVisibility(View.GONE);
+                            }
+
+                        }
+
+                        final DatabaseReference itemRef = getRef(position);
+                        final String itemKey = itemRef.getKey();
+
+                        holder.deleteProduct.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                freezerRef.child(itemKey).removeValue();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+
+                });
+            }
+            @NonNull
+            @Override
+            public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) { //mostra il layout impostato
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_display_layout, parent, false);
+                ProductViewHolder viewHolder = new ProductViewHolder(view);
+                return viewHolder;
+            }
+        };
+
+        freezerList.setAdapter(adapter);
+        adapter.startListening();
+    }
     void showCustomDialog(){
 
         final Dialog dialog = new Dialog(getContext());
