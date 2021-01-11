@@ -127,7 +127,7 @@ public class FreezerFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.hasChild("category")) {
-                            if(snapshot.child("category").getValue().toString().equalsIgnoreCase("drugs")) {
+                            if(snapshot.child("category").getValue().toString().equalsIgnoreCase("freezer")) {
                                 String name = snapshot.child("productName").getValue().toString();
                                 String date = snapshot.child("expireDate").getValue().toString();
 
