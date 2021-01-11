@@ -40,7 +40,10 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class DrugsFragment extends Fragment {
 
-
+    private View drugsView;
+    private RecyclerView drugsList;
+    private DatabaseReference drugsRef;
+    private FirebaseUser user;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -80,12 +83,129 @@ public class DrugsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_drugs, container, false);
+        drugsView = inflater.inflate(R.layout.fragment_drugs, container, false);
+        drugsList = (RecyclerView) drugsView.findViewById(R.id.drugsRecyclerView);
+        drugsList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        drugsRef = FirebaseDatabase.getInstance().getReference().child(user.getUid()); //seleziono nodo corrispondente ad utente loggato
+
+        //Floating Action Button per aggiungere un elemento
+        FloatingActionButton fab = (FloatingActionButton) drugsView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showCustomDialog();
+            }
+        });
+
+        return drugsView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<Product>()
+                .setQuery(drugsRef, Product.class)
+                .build();
+
+        FirebaseRecyclerAdapter<Product, ProductViewHolder> adapter = new FirebaseRecyclerAdapter<Product, ProductViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull ProductViewHolder holder, int position, @NonNull Product model) {
+                String productID = getRef(position).getKey(); //Le chiavi i ogni nodo figlio
+                drugsRef.child(productID).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.hasChild("category")) {
+                            if(snapshot.child("category").getValue().toString().equalsIgnoreCase("drugs")) {
+                                String name = snapshot.child("productName").getValue().toString();
+                                String date = snapshot.child("expireDate").getValue().toString();
+
+
+                                holder.productName.setText(name);
+                                holder.expireDate.setText(date);
+                            }
+                            else {
+                                holder.deleteProduct.setVisibility(View.GONE);
+                                holder.expireDate.setVisibility(View.GONE);
+                                holder.productName.setVisibility(View.GONE);
+                            }
+
+                        }
+
+                        final DatabaseReference itemRef = getRef(position);
+                        final String itemKey = itemRef.getKey();
+
+                        holder.deleteProduct.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                drugsRef.child(itemKey).removeValue();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+
+                });
+            }
+            @NonNull
+            @Override
+            public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) { //mostra il layout impostato
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_display_layout, parent, false);
+                ProductViewHolder viewHolder = new ProductViewHolder(view);
+                return viewHolder;
+            }
+        };
+
+        drugsList.setAdapter(adapter);
+        adapter.startListening();
+    }
+
+    void showCustomDialog(){
+
+        final Dialog dialog = new Dialog(getContext());
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.custom_dialog);
+
+        final EditText productName = dialog.findViewById(R.id.productNameEditText);
+        final EditText expireDate = dialog.findViewById(R.id.expireDateEditText);
+        Button addProduct = dialog.findViewById(R.id.addProductButton);
+
+        addProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadProduct();                 //Leggo i valori inseriti e li carico su Firebase
+                dialog.dismiss();
+            }
+
+            private void uploadProduct() {
+                String userID = FirebaseAuth.getInstance().getCurrentUser().getUid(); //ottengo id
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(userID);
+
+                String name = productName.getEditableText().toString();
+                String date = expireDate.getEditableText().toString();
+                String category = "drugs";
+                Product product = new Product(name, date, category);
+                ref.push().setValue(product);
+
+            }
+        });
+
+        dialog.show();
+
+
     }
 }
