@@ -40,7 +40,10 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class FreezerFragment extends Fragment {
 
-
+    private View freezerView;
+    private RecyclerView freezerList;
+    private DatabaseReference freezerRef;
+    private FirebaseUser user;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -88,8 +91,58 @@ public class FreezerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_freezer, container, false);
+        freezerView = inflater.inflate(R.layout.fragment_freezer, container, false);
+        freezerList = (RecyclerView) freezerView.findViewById(R.id.freezerRecyclerView);
+        freezerList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        freezerRef = FirebaseDatabase.getInstance().getReference().child(user.getUid()); //seleziono nodo corrispondente ad utente loggato
+
+        //Floating Action Button per aggiungere un elemento
+        FloatingActionButton fab = (FloatingActionButton) freezerView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showCustomDialog();
+            }
+        });
+
+        return freezerView;
     }
 
+    void showCustomDialog(){
 
+        final Dialog dialog = new Dialog(getContext());
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.custom_dialog);
+
+        final EditText productName = dialog.findViewById(R.id.productNameEditText);
+        final EditText expireDate = dialog.findViewById(R.id.expireDateEditText);
+        Button addProduct = dialog.findViewById(R.id.addProductButton);
+
+        addProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadProduct();                 //Leggo i valori inseriti e li carico su Firebase
+                dialog.dismiss();
+            }
+
+            private void uploadProduct() {
+                String userID = FirebaseAuth.getInstance().getCurrentUser().getUid(); //ottengo id
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(userID);
+
+                String name = productName.getEditableText().toString();
+                String date = expireDate.getEditableText().toString();
+                String category = "freezer";
+                Product product = new Product(name, date, category);
+                ref.push().setValue(product);
+
+            }
+        });
+
+        dialog.show();
+
+
+    }
 }
