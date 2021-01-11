@@ -85,10 +85,6 @@ public class FridgeFragment extends Fragment {
         }
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-
-
-
-
     }
 
     @Override
@@ -111,8 +107,6 @@ public class FridgeFragment extends Fragment {
                showCustomDialog();
             }
         });
-
-
 
         return fridgeView;
     }
@@ -141,16 +135,21 @@ public class FridgeFragment extends Fragment {
                                 holder.productName.setText(name);
                                 holder.expireDate.setText(date);
                             }
+                            else {
+                                holder.deleteProduct.setVisibility(View.GONE);
+                                holder.expireDate.setVisibility(View.GONE);
+                                holder.productName.setVisibility(View.GONE);
+                            }
 
                         }
 
                         final DatabaseReference itemRef = getRef(position);
-                        final String myKey = itemRef.getKey();//you can name the myKey whatever you want.
+                        final String itemKey = itemRef.getKey();
 
                         holder.deleteProduct.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                fridgeRef.child(myKey).removeValue();
+                                fridgeRef.child(itemKey).removeValue();
                             }
                         });
                     }
@@ -162,7 +161,6 @@ public class FridgeFragment extends Fragment {
 
                 });
             }
-
             @NonNull
             @Override
             public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) { //mostra il layout impostato
@@ -176,48 +174,7 @@ public class FridgeFragment extends Fragment {
         adapter.startListening();
     }
 
-
-    public static class ProductViewHolder extends RecyclerView.ViewHolder{
-
-        TextView productName, expireDate;
-        Button deleteProduct;
-        public ProductViewHolder(@NonNull View itemView) {
-            super(itemView);
-            productName = itemView.findViewById(R.id.productNameTextView);
-            expireDate = itemView.findViewById(R.id.expireDateTextView);
-            deleteProduct = itemView.findViewById(R.id.deleteProductButton);
-
-            }
-            /*deleteProduct.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder((MainActivity.this));
-                    builder.setTitle(R.string.confirmDeleteProductTitle);
-                    builder.setMessage(R.string.confirmDeleteProductMessage);
-                    builder.setCancelable(true);
-                    builder.setPositiveButton(R.string.confirmDeletePositive, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            //TODO: eliminazione
-                        }
-                    });
-                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
-                }
-            });*/
-
-    }
-
-
-   void showCustomDialog(){
+    void showCustomDialog(){
 
         final Dialog dialog = new Dialog(getContext());
         dialog.setCancelable(true);
@@ -240,7 +197,7 @@ public class FridgeFragment extends Fragment {
 
                 String name = productName.getEditableText().toString();
                 String date = expireDate.getEditableText().toString();
-                String category = "fridge"; //TODO: cambiare in altre classi
+                String category = "fridge";
                 Product product = new Product(name, date, category);
                 ref.push().setValue(product);
 
